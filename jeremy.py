@@ -1,18 +1,25 @@
 import pyxel
-
 class App:
     def __init__(self):
-        pyxel.init(128, 128, title="Nuit du Code")
-        pyxel.load("4.pyxres")
+        pyxel.init(120, 120, title="Nuit du Code")
         self.x = 0
-        self.y = 0
+        self.y = 40
+        self.t = 0
+        pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
     def update(self):
         self.x, self.y = Mouvements(self.x, self.y).bouger()
+        self.t =(self.t +  8) % 40
     def draw(self):
         pyxel.cls(0)
-        pyxel.bltm(0, 0, 0, 0, 0, 128, 128)
-        pyxel.blt(self.x, self.y, 0, 0, 16, 8, 8)
+        if self.x >= 60:
+            pyxel.bltm(0,0,0,self.x - 60,0,128,128)
+            pyxel.blt(60,40,0,self.t,16,8,8)
+        else:
+            pyxel.bltm(0,0,0,0,0,128,128)
+            pyxel.blt(self.x,40,0,self.t,16,8,8)
+
+
 
 class Mouvements():
     def __init__(self, x, y):
@@ -24,6 +31,5 @@ class Mouvements():
         if pyxel.btn(pyxel.KEY_D):
             self.x += 1
         return self.x, self.y
-    
 
 App()
