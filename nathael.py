@@ -5,7 +5,7 @@ class App:
         self.x = 0
         pyxel.run(self.update, self.draw)
     def fond(self):
-        
+        pass
         
 
 
