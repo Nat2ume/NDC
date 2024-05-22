@@ -8,26 +8,28 @@ class App:
         self.t = 0
         self.angle = 0 
         self.saut = False
-        self.detec = Detection()
+        self.detec = Detection(self.x,self.y)
+        self.move = Mouvements(self.x,self.y,self.saut)
         pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
 
 
     def update(self):
-        self.x, self.o, self.saut, y_init = Mouvements(self.x,self.y,self.saut).bouger()
+        self.x, self.o, self.saut, y_init = self.move.bouger(self.x,self.y)
         self.t =(self.t +  8) % 40
 
-        if not Detection(self.x,self.y).bas() and not self.saut: 
+        if not self.detec.bas(self.x,self.y) and not self.saut: 
             self.y += 1
-
+        print(self.saut,self.detec.bas(self.x,self.y))
         if self.saut:
             self.angle += 3
             loop = math.radians(self.angle)
-            self.y = y_init - math.sin(loop)*5
+            self.y = y_init - math.sin(loop)*2.2
+            print(self.angle)
             if self.angle >= 177:
                 self.saut = False
                 self.angle = 0
-            if Detection(self.x,self.y).bas(): 
+            if self.detec.bas(self.x,self.y): 
                 self.saut = False
                 self.angle = 0
             
@@ -62,14 +64,16 @@ class Mouvements():
         self.o = 16
         self.y = y
         self.saut = saut
-    def bouger(self):
+    def bouger(self,x,y):
+        self.x = x
+        self.y = y
         if pyxel.btn(pyxel.KEY_Q):
             self.x -= 1
             self.o = 24
         if pyxel.btn(pyxel.KEY_D):
             self.x += 1
             self.o = 16
-        if pyxel.btn(pyxel.KEY_SPACE) and Detection(self.x, self.y).bas():
+        if pyxel.btn(pyxel.KEY_SPACE) and Detection(self.x, self.y).bas(self.x,self.y):
             self.saut = True
         return self.x,self.o, self.saut, self.y
 
@@ -77,13 +81,16 @@ class Detection() :
     def __init__(self,x,y) :
         self.x = x 
         self.y = y
-    def bas (self):
+    def bas (self,x,y):
+        self.x = x 
+        self.y = y
         if self.x < 60:
             if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0:
                 return True
         else:
             if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0:
                 return True
+        return False
 App()
 
 
