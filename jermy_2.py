@@ -15,6 +15,7 @@ class App:
         self.move = Mouvements(self.x,self.y,self.saut)
         self.objet = Objets(self.x)
         pyxel.load("4.pyxres")
+        pyxel.playm(0, loop=True)
         pyxel.run(self.update, self.draw)
 
 
