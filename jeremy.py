@@ -12,17 +12,7 @@ class App:
     def update(self):
         self.x, self.y, self.orientation = Mouvements(self.x, self.y).bouger()
         self.t =(self.t +  8) % 40
-    def draw(self):
-
-        pyxel.cls(0)
-        if self.x >= 60:
-            pyxel.bltm(0,0,0,self.x - 60,0,128,128)
-            pyxel.blt(60,40,0,self.t,self.orientation,8,8)
-        else:
-            pyxel.bltm(0,0,0,0,0,128,128)
-            pyxel.blt(self.x,40,0,self.t,self.orientation,8,8)
-        Objets(self.x).cle_rouge()
-        Objets(self.x).cle_verte()
+c
 
 
 class Objets():
