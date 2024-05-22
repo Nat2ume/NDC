@@ -24,12 +24,10 @@ class App:
 
         if not self.detec.bas(self.x,self.y) and not self.saut: 
             self.y += 1
-        print(self.saut,self.detec.bas(self.x,self.y))
         if self.saut:
             self.angle += 3
             loop = math.radians(self.angle)
             self.y = y_init - math.sin(loop)*2.2
-            print(self.angle)
             if self.angle >= 177:
                 self.saut = False
                 self.angle = 0
@@ -42,6 +40,7 @@ class App:
 
 
     def draw(self):
+
         pyxel.cls(0)
         if self.x >= 60:
             pyxel.bltm(0,0,0,self.x - 60,0,128,128)
@@ -78,6 +77,11 @@ class Objets():
     
     def bloc_vert(self, x):
         pyxel.blt(36*8-x+60, 8*8, 0, 48, 184, 8, 8)
+    
+    def piece(self, x):
+        pyxel.blt(30*8-x+60, 10*8, 0, 40, 192, 8, 8)
+    
+    
 
 
 
