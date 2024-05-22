@@ -1,5 +1,6 @@
 import pyxel
 import math
+
 class App:
     def __init__(self):
         pyxel.init(120, 120, title="Nuit du Code")
@@ -10,30 +11,35 @@ class App:
         self.saut = False
         self.pocession_redkey = False
         self.pocession_greenkey = False
+        self.detec = Detection(self.x,self.y)
+        self.move = Mouvements(self.x,self.y,self.saut)
+        self.objet = Objets(self.x)
         pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
 
 
     def update(self):
-        self.x, self.o, self.saut, y_init = Mouvements(self.x,self.y,self.saut).bouger()
+        self.x, self.o, self.saut, y_init = self.move.bouger(self.x,self.y, self.saut)
         self.t =(self.t +  8) % 40
 
-        if not Detection(self.x,self.y).bas() and not self.saut: 
+        if not self.detec.bas(self.x,self.y) and not self.saut: 
             self.y += 1
-
+        print(self.saut,self.detec.bas(self.x,self.y))
         if self.saut:
             self.angle += 3
             loop = math.radians(self.angle)
-            self.y = y_init - math.sin(loop)*5
+            self.y = y_init - math.sin(loop)*2.2
+            print(self.angle)
             if self.angle >= 177:
                 self.saut = False
                 self.angle = 0
-            if Detection(self.x,self.y).bas(): 
+            if self.detec.bas(self.x,self.y): 
                 self.saut = False
                 self.angle = 0
-
+        
         self.pocession_redkey = Detection(self.x, self.y).recuperer_redkey(self.pocession_redkey)
         self.pocession_greenkey = Detection(self.x, self.y).recuperer_greenkey(self.pocession_greenkey)
+
 
     def draw(self):
         pyxel.cls(0)
@@ -47,31 +53,32 @@ class App:
 
 
         if not self.pocession_redkey:
-            Objets(self.x).cle_rouge()
+            self.objet.cle_rouge(self.x)
         else:
-            Objets(self.x).bloc_rouge()
+            self.objet.bloc_rouge(self.x)
 
         if not self.pocession_greenkey:
-            Objets(self.x).cle_verte()
+            self.objet.cle_verte(self.x)
         else:
-            Objets(self.x).bloc_vert()
+            self.objet.bloc_vert(self.x)
 
 
 class Objets():
     def __init__(self, x):
         self.x = x
 
-    def cle_rouge(self):
-        pyxel.blt(41*8-self.x+60, 10*8, 0, 32, 192, 8, 8)
+    def cle_rouge(self, x):
+        pyxel.blt(41*8-x+60, 10*8, 0, 32, 192, 8, 8)
     
-    def bloc_rouge(self):
-        pyxel.blt(32*8-self.x+60, 5*8, 0, 32, 184, 8, 8)
+    def bloc_rouge(self, x):
+        pyxel.blt(32*8-x+60, 5*8, 0, 32, 184, 8, 8)
 
-    def cle_verte(self):
-        pyxel.blt(30*8-self.x+60, 10*8, 0, 40, 192, 8, 8)
+    def cle_verte(self, x):
+        pyxel.blt(30*8-x+60, 10*8, 0, 40, 192, 8, 8)
     
-    def bloc_vert(self):
-        pyxel.blt(36*8-self.x+60, 8*8, 0, 48, 184, 8, 8)
+    def bloc_vert(self, x):
+        pyxel.blt(36*8-x+60, 8*8, 0, 48, 184, 8, 8)
+
 
 
 class Mouvements():
@@ -80,14 +87,18 @@ class Mouvements():
         self.o = 16
         self.y = y
         self.saut = saut
-    def bouger(self):
+        self.detec = Detection(self.x, self.y)
+    def bouger(self,x,y,saut):
+        self.x = x
+        self.y = y
+        self.saut = saut
         if pyxel.btn(pyxel.KEY_Q):
             self.x -= 1
             self.o = 24
         if pyxel.btn(pyxel.KEY_D):
             self.x += 1
             self.o = 16
-        if pyxel.btn(pyxel.KEY_SPACE) and Detection(self.x, self.y).bas():
+        if pyxel.btn(pyxel.KEY_SPACE): #and self.detec.bas(self.x,self.y):
             self.saut = True
         return self.x,self.o, self.saut, self.y
 
@@ -95,14 +106,17 @@ class Detection() :
     def __init__(self,x,y) :
         self.x = x 
         self.y = y
-    def bas (self):
+    def bas (self,x,y):
+        self.x = x 
+        self.y = y
         if self.x < 60:
-            if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0:
+            if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0 or pyxel.pget(self.x+4,self.y+8) == 0:
                 return True
         else:
-            if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0:
+            if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0 or pyxel.pget(64,self.y+8) == 0:
                 return True
-
+        return False
+    
     def recuperer_redkey(self, pocession_actuelle):
         if 41*8-self.x+60 <= 68 and 41*8-self.x+60 >= 52:
             return True

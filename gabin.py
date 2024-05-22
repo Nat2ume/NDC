@@ -16,10 +16,10 @@ class App:
          
     def bas (self):
         if self.x < 60:
-            if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0:
+            if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0 or pyxel.pget(self.x+4,self.y+8) == 0:
                 return True
         else:
-            if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0:
+            if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0 or pyxel.pget(64,self.y+8) == 0:
                 return True
         return False
     
@@ -39,7 +39,7 @@ class App:
         self.x, self.o, self.saut, y_init = self.bouger()
         self.t =(self.t +  8) % 40
 
-        if not self.detec.bas(self.x,self.y) and not self.saut: 
+        if not self.bas() and not self.saut: 
             self.y += 1
         print(self.saut,self.bas())
         if self.saut:
