@@ -1,14 +1,14 @@
 import pyxel
 class App:
-    def __init__(self,move):
+    def __init__(self):
         pyxel.init(120, 120, title="Nuit du Code")
         self.x = 0
-        self.bouge = move
+        self.y = 0 
         self.t = 0
         pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
     def update(self):
-        self.x = ( self.bouge.bouger()[0]) % pyxel.width
+        self.x, self.y = Mouvements(self.x, self.y).bouger()
         self.t =(self.t +  8) % 40
     def draw(self):
         pyxel.cls(0)
@@ -28,7 +28,6 @@ class Mouvements():
             self.x += 1
         return self.x, self.y
 
-move = Mouvements(0,0)
-App(move)
+App()
 
 
