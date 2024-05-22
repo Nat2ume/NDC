@@ -1,5 +1,6 @@
 import pyxel
 import math
+from random import randint
 
 class App:
     def __init__(self):
@@ -62,6 +63,8 @@ class App:
         else:
             self.objet.bloc_vert(self.x)
 
+        self.objet.piece(self.x)
+
 
 class Objets():
     def __init__(self, x):
@@ -80,9 +83,12 @@ class Objets():
         pyxel.blt(36*8-x+60, 8*8, 0, 48, 184, 8, 8)
     
     def piece(self, x):
-        pyxel.blt(30*8-x+60, 10*8, 0, 40, 192, 8, 8)
+        if randint(0,1) == 1:
+            pyxel.blt(41*8-x+60, 7*8, 0, 32, 160, 8, 8)
+        else:
+            pyxel.blt(41*8-x+60, 7*8, 0, 48, 160, 8, 8)
     
-    
+
 
 
 
@@ -97,10 +103,10 @@ class Mouvements():
         self.x = x
         self.y = y
         self.saut = saut
-        if pyxel.btn(pyxel.KEY_Q):
+        if pyxel.btn(pyxel.KEY_Q) and not self.detec.gauche(self.x, self.y):
             self.x -= 1
             self.o = 24
-        if pyxel.btn(pyxel.KEY_D):
+        if pyxel.btn(pyxel.KEY_D) and not self.detec.droit(self.x, self.y):
             self.x += 1
             self.o = 16
         if pyxel.btn(pyxel.KEY_SPACE): #and self.detec.bas(self.x,self.y):
@@ -121,6 +127,22 @@ class Detection() :
             if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0 or pyxel.pget(64,self.y+8) == 0:
                 return True
         return False
+    
+    def droit(self, x, y):
+        if x < 60:
+            if pyxel.pget(x+9,y) == 0 or  pyxel.pget(x+9,y+7) == 0:
+                return True
+        else:
+            if pyxel.pget(69 ,y) == 0 or  pyxel.pget(69,y+7) == 0:
+                return True
+
+    def gauche(self, x, y):
+        if x < 60:
+            if pyxel.pget(x-1,y) == 0 or  pyxel.pget(x-1,y+7) == 0:
+                return True
+        else:
+            if pyxel.pget(59 ,y) == 0 or  pyxel.pget(59,y+7) == 0:
+                return True
     
     def recuperer_redkey(self, pocession_actuelle):
         if 41*8-self.x+60 <= 68 and 41*8-self.x+60 >= 52:
