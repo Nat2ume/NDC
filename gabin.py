@@ -36,7 +36,7 @@ class App:
         return self.x,self.o, self.saut, self.y
 
     def update(self):
-        self.x, self.o, self.saut, y_init = self.bouger()
+        self.x, self.o, self.saut, self.y = self.bouger()
         self.t =(self.t +  8) % 40
 
         if not self.bas() and not self.saut: 
@@ -45,7 +45,7 @@ class App:
         if self.saut:
             self.angle += 3
             loop = math.radians(self.angle)
-            self.y = y_init - math.sin(loop)*2
+            self.y = self.y - math.sin(loop)*2
             print(self.angle)
             if self.angle >= 180:
                 self.saut = False
@@ -101,16 +101,46 @@ class Detection() :
     def __init__(self,x,y) :
         self.x = x 
         self.y = y
-    def bas (self,x,y):
-        self.x = x 
-        self.y = y
+    def bas (self):
         if self.x < 60:
             if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0:
                 return True
         else:
             if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0:
                 return True
-        return False
+    def haut(self):
+        if self.x < 60:
+            if pyxel.pget(self.x,self.y-8) == 0 or  pyxel.pget(self.x+8,self.y-8) == 0:
+                return True
+        else:
+            if pyxel.pget(60 ,self.y-8) == 0 or  pyxel.pget(68,self.y-8) == 0:
+                return True
+    def droit(self):
+        if self.x < 60:
+            if pyxel.pget(self.x+9,self.y) == 0 or  pyxel.pget(self.x+9,self.y+7) == 0:
+                return True
+        else:
+            if pyxel.pget(69 ,self.y) == 0 or  pyxel.pget(69,self.y+7) == 0:
+                return True
+
+    def gauche(self):
+        if self.x < 60:
+            if pyxel.pget(self.x-1,self.y) == 0 or  pyxel.pget(self.x-1,self.y+7) == 0:
+                return True
+        else:
+            if pyxel.pget(59 ,self.y) == 0 or  pyxel.pget(59,self.y+7) == 0:
+                return True
+
+
+    def recuperer_redkey(self, pocession_actuelle):
+        if 41*8-self.x+60 <= 68 and 41*8-self.x+60 >= 52:
+            return True
+        return pocession_actuelle
+
+    def recuperer_greenkey(self, pocession_actuelle):
+        if 30*8-self.x+60 <= 68 and 30*8-self.x+60 >= 52:
+            return True
+        return pocession_actuelle
 App()
 
 
