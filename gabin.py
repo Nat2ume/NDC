@@ -8,11 +8,11 @@ class App:
         pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
     def update(self):
-        self.x = (self.x + self.bouge.bouger()[0]) % pyxel.width
+        self.x = ( self.bouge.bouger()[0]) % pyxel.width
         self.t =(self.t +  8) % 40
     def draw(self):
         pyxel.cls(0)
-        pyxel.bltm(0,0,0,self.x,16,128,128)
+        pyxel.bltm(0,0,0,self.x*2,16,128,128)
         pyxel.blt(self.x,40,0,self.t,16,8,8)
 
 
