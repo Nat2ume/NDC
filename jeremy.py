@@ -12,7 +12,6 @@ class App:
     def update(self):
         self.x, self.y, self.orientation = Mouvements(self.x, self.y).bouger()
         self.t =(self.t +  8) % 40
-c
 
 
 class Objets():
