@@ -14,3 +14,5 @@ Pour bien vous amuser, il vous faudra utiliser les touches :
 - 'D' pour marcher vers la droite
 - 'G' pour marcher vers la gauche
 - 'Espace' pour sauter
+
+### Amusez vous bien !!!
