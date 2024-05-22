@@ -7,7 +7,7 @@ Ce projet a été réalisé lors de notre après midi consacré a la nuit du cod
 
 ***
 ## Démarche artistique
-Le jeu a été réalisé grâce a l'univers 4.pyxres. Tous les personnages et les structures nous ont inspirer pour concevoir un jeu de plateforme tel que Mario Bros. Le jeu concite a atteindre le drapeau a damier final sans mourir. Vous devrez récupérer des clés afin de vous ouvrir le passage vers la suite du niveau.
+Le jeu a été réalisé grâce a l'univers 4.pyxres. Tous les personnages et les structures nous ont inspirer pour concevoir un jeu de plateforme tel que Mario Bros. Le jeu concite a atteindre le drapeau a damier final sans mourir. Vous devrez récupérer des clés afin de vous ouvrir le passage vers la suite du niveau. Notre héro contrairement à Mario il vole !! 
 
 ## Comment jouer
 Pour bien vous amuser, il vous faudra utiliser les touches :
