@@ -7,33 +7,52 @@ class App:
         self.y = 56
         self.t = 0
         self.angle = 0 
+        self.o = 16
         self.saut = False
         self.detec = Detection(self.x,self.y)
         self.move = Mouvements(self.x,self.y,self.saut)
         pyxel.load("4.pyxres")
         pyxel.run(self.update, self.draw)
-
+         
+    def bas (self):
+        if self.x < 60:
+            if pyxel.pget(self.x,self.y+8) == 0 or  pyxel.pget(self.x+8,self.y+8) == 0 or pyxel.pget(self.x+4,self.y+8) == 0:
+                return True
+        else:
+            if pyxel.pget(60 ,self.y+8) == 0 or  pyxel.pget(68,self.y+8) == 0 or pyxel.pget(64,self.y+8) == 0:
+                return True
+        return False
+    
+    def bouger(self):
+        if pyxel.btn(pyxel.KEY_Q):
+            self.x -= 1
+            self.o = 24
+        if pyxel.btn(pyxel.KEY_D):
+            self.x += 1
+            self.o = 16
+        if pyxel.btn(pyxel.KEY_SPACE) and self.bas():
+            self.y -= 5
+            self.saut = True
+        return self.x,self.o, self.saut, self.y
 
     def update(self):
-        self.x, self.o, self.saut, y_init = self.move.bouger(self.x,self.y)
+        self.x, self.o, self.saut, y_init = self.bouger()
         self.t =(self.t +  8) % 40
 
-        if not self.detec.bas(self.x,self.y) and not self.saut: 
+        if not self.bas() and not self.saut: 
             self.y += 1
-        print(self.saut,self.detec.bas(self.x,self.y))
+        print(self.saut,self.bas())
         if self.saut:
             self.angle += 3
             loop = math.radians(self.angle)
-            self.y = y_init - math.sin(loop)*2.2
+            self.y = y_init - math.sin(loop)*2
             print(self.angle)
-            if self.angle >= 177:
+            if self.angle >= 180:
                 self.saut = False
                 self.angle = 0
-            if self.detec.bas(self.x,self.y): 
+            if self.bas(): 
                 self.saut = False
                 self.angle = 0
-            
-
     def draw(self):
 
         pyxel.cls(0)
@@ -64,6 +83,7 @@ class Mouvements():
         self.o = 16
         self.y = y
         self.saut = saut
+        #self.detec = Detection()
     def bouger(self,x,y):
         self.x = x
         self.y = y
