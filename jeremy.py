@@ -121,14 +121,9 @@ class Mouvements():
         loop = math.radians(self.angle)
         self.y = self.y_init - math.sin(loop)*15
         if self.angle >= 120:
-            print("A")
             self.sautencours = False
             self.angle = 0
-        """if self.detec.bas(self.x, self.y):
-            print("B")
-            self.sautencours = False
-            self.angle = 0"""
-        
+
 
 class Detection() :
     def __init__(self) :
