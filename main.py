@@ -84,9 +84,9 @@ class Objets():
     
     def piece(self, x):
         if randint(0,1) == 1:
-            pyxel.blt(41*8-x+60, 7*8, 0, 32, 160, 8, 8)
+            pyxel.blt(41*8-x+60, 7*8, 0, 32, 160, 8, 8, 5)
         else:
-            pyxel.blt(41*8-x+60, 7*8, 0, 48, 160, 8, 8)
+            pyxel.blt(41*8-x+60, 7*8, 0, 48, 160, 8, 8, 5)
     
 
 
